@@ -1,8 +1,32 @@
 import { fetchTrainStationData } from '@/models/tdxApi.mjs';
 
 export default async function Home() {
-  const stationData = await fetchTrainStationData();
-  
+  let stationData;
+  let error = null;
+
+  try {
+    stationData = await fetchTrainStationData();
+  } catch (err) {
+    error = err.message;
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-100 p-4">
+        <main className="max-w-7xl mx-auto">
+          <div className="bg-white shadow-xl rounded-lg overflow-hidden">
+            <div className="px-4 py-5 border-b border-gray-200">
+              <h1 className="text-2xl font-bold text-center text-red-600">錯誤</h1>
+            </div>
+            <div className="p-8 text-center text-red-500">
+              {error}
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <main className="max-w-7xl mx-auto">
